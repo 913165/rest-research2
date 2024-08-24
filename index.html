@@ -27,11 +27,13 @@
   </style>
 </head>
 <body>
+  
+  
   <div class="left-panel">
     <h4>Saved Requests</h4>
     <ul class="request-list" id="saved-requests">
       <script>
-        const allRequests = JSON.parse(localStorage.getItem('allRequests')) || [];
+        var allRequests = JSON.parse(localStorage.getItem('allRequests')) || [];
         console.log("allRequests2", allRequests);
         allRequests.forEach(request => {
           const li = document.createElement('li');
@@ -44,8 +46,6 @@
           } else {
             li.style.color = "orange";
           }
-
-
           document.getElementById('saved-requests').appendChild(li);
           li.addEventListener('click', function() {
             console.log("li", request.url);
@@ -55,6 +55,17 @@
       </script>
     </ul>
     <h4>Cleared saved-requests</h4>
+    <button id="clear-requests-btn" class="btn btn-danger">Clear Requests</button>
+    <script>
+      const clearRequestsBtn = document.getElementById('clear-requests-btn');
+      clearRequestsBtn.addEventListener('click', function() {
+        localStorage.removeItem('allRequests');
+        document.getElementById('saved-requests').innerHTML = '';
+        allRequests = JSON.parse(localStorage.getItem('allRequests')) 
+        allRequests = [];
+        localStorage.clear();
+      });
+    </script>
   </div>
 
   <div class="content">
@@ -101,17 +112,7 @@
 
       <div class="mt-5 d-none" data-response-section>
         <h3>Response</h3>
-        <div class="d-flex my-2">
-          <div class="me-3">
-            Status: <span data-status></span>
-          </div>
-          <div class="me-3">
-            Time: <span data-time></span>ms
-          </div>
-          <div class="me-3">
-            Size: <span data-size></span>
-          </div>
-        </div>
+       
 
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
@@ -128,6 +129,17 @@
           </div>
           <div class="tab-pane fade" id="response-headers" role="tabpanel" aria-labelledby="response-headers-tab">
             <div style="display: grid; grid-template-columns: auto 1fr; gap: .5rem 2rem;" data-response-headers></div>
+          </div>
+        </div>
+        <div class="d-flex my-2">
+          <div class="me-3">
+            Status: <span data-status style="color: green;"></span>
+          </div>
+          <div class="me-3">
+            Time: <span data-time></span>ms
+          </div>
+          <div class="me-3">
+            Size: <span data-size></span>
           </div>
         </div>
       </div>
